@@ -174,12 +174,17 @@ const store = new Vuex.Store({
         },
         updateItemImageUrl(state, args) {
             var item = state.library.getItemById(args.item.id);
-            item.imageUrl = args.imageUrl;
+            if (args.imageUrl.includes('https://i.imgur.com/')) {
+                item.image = args.imageUrl.substring(20,27);
+            } else {
+                item.imageUrl = args.imageUrl;
+            }
             state.library.optionalFields["images"] = true;
         },
         updateItemImage(state, args) {
             var item = state.library.getItemById(args.item.id);
             item.image = args.image;
+            item.imageUrl = "";
             state.library.optionalFields["images"] = true;
         },
         removeItemImage(state, updateItem) {
