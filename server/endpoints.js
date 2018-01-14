@@ -159,38 +159,45 @@ router.post("/externalId", function(req, res) {
 });
 
 function externalId(req, res, user) {
-    var filePath = path.join(__dirname, "../extIds.txt");
-
-    fs.readFile(filePath, function(err, data) {
-        if (!err) {
-            data = data.toString();
-            var position = data.indexOf('\n');
-            if (position != -1) {
-                var myId = data.substr(0, position).trim();
-                data = data.substr(position + 1);
-                fs.writeFile(filePath, data, function(err) {
-                    if (err) {
-                        awesomeLog(req, err);
-                    }
-                });
-                awesomeLog(req, user.username + " - " + myId);
-
-                if (typeof user.externalIds == "undefined") user.externalIds = [myId];
-                else user.externalIds.push(myId);
-
-                db.users.save(user);
-
-                return res.status(200).json({externalId: myId});
-            } else {
-                awesomeLog(req, 'External ID File: no lines found!!!111oneoneone');
-                return res.status(500).json({status: "An error occurred, please try again later."});
-            }
-        } else {
-            awesomeLog(req, "ERROR OPENING EXTERNAL ID FILE");
-            awesomeLog(req, err);
-            return res.status(500).json({status: "An error occurred, please try again later."});
+    awesomeLog(req);
+    function genExternalID(){
+        var myId = "";
+        var possible = ""ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (var i = 0; i < 10; i++) {
+            myId += possible.charAt(Math.floor(Math.random() * possible.length));
         }
-    });
+        return myId;
+    }
+    var i = 0;
+    function iterateExternalID() {
+        i += 1;
+        awesomeLog(req,'iteration ' + i);
+        var myId = genExternalID();
+        db.users.find({"library.lists.externalId": myId}, function(err, users) {
+            if (err) {
+                res.status(500).send("An error occurred.");
+                return;
+            }
+            if (users.length) {
+                awesomeLog(req, user.username + " - " + myId + " : id invalid, already in use");
+                if (i>=5) {
+                    res.status(500).send("An error occurred.");
+                    return;
+                }
+                iterateExternalID();
+                return;
+            }
+            awesomeLog(req, user.username + " - " + myId);
+
+            if (typeof user.externalIds == "undefined") user.externalIds = [myId];
+            else user.externalIds.push(myId);
+
+            db.users.save(user);
+
+            return res.status(200).json({externalId: myId});
+        });
+    }
+    iterateExternalID();
 }
 
 router.post("/forgotPassword", function(req, res) {
