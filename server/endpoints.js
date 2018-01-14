@@ -162,7 +162,7 @@ function externalId(req, res, user) {
     awesomeLog(req);
     function genExternalID(){
         var myId = "";
-        var possible = ""ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         for (var i = 0; i < 10; i++) {
             myId += possible.charAt(Math.floor(Math.random() * possible.length));
         }
