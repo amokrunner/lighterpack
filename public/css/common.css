@@ -604,14 +604,14 @@ input.lpCategoryName {
 .lpItemsFooter .lpName {
   flex: 1 1 150px;
   margin-right: 4px;
-  min-width: 50px;
+  min-width: 75px;
 }
 .lpItem .lpDescription,
 .lpItemsHeader .lpDescription,
 .lpItemsFooter .lpDescription {
-  flex: 2 0 200px;
+  flex: 1 1 200px;
   margin-right: 4px;
-  min-width: 100px;
+  min-width: 75px;
 }
 .lpItem .lpActionsCell,
 .lpItemsHeader .lpActionsCell,
@@ -661,22 +661,24 @@ input.lpCategoryName {
 .lpItemsFooter .lpCategoryName {
   /* Header */
   flex: 1 1 auto;
+  min-width: 380px;
 }
 .lpItem .lpAddItemCell,
 .lpItemsHeader .lpAddItemCell,
 .lpItemsFooter .lpAddItemCell {
   /* Footer */
   flex: 1 1 auto;
+  min-width: 394px;
 }
 .lpItemsHeader {
-  align-items: flex-end;
+  align-items: center;
   border-bottom: 1px solid #AAA;
   border-top: none;
   height: 31px;
 }
 .lpItemsFooter {
   border-top-style: solid;
-  justify-content: flex-end;
+  justify-content: center;
 }
 .lpActionsCell .lpWorn,
 .lpActionsCell .lpConsumable,

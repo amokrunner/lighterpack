@@ -606,3 +606,17 @@ h2 .alternateAction {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
   filter: alpha(opacity=20);
 }
+@media only screen and (max-device-width: 1024px) {
+  .lpItem,
+  .lpItemsHeader {
+    min-height: 48px;
+  }
+  .lpItem .lpHandle,
+  .lpItemsHeader .lpHandle {
+    width: 40px;
+    height: 40px;
+  }
+  .lpItems .lpHandle {
+    visibility: visible;
+  }
+}

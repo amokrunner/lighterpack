@@ -112,13 +112,13 @@ input.lpCategoryName { /* specificity */
     .lpName {
         flex: 1 1 150px;
         margin-right: 4px;
-        min-width: 50px;
+        min-width: 75px;
     }
 
     .lpDescription {
-        flex: 2 0 200px;
+        flex: 1 1 200px;
         margin-right: 4px;
-        min-width: 100px;
+        min-width: 75px;
     }
 
     .lpActionsCell {
@@ -159,15 +159,17 @@ input.lpCategoryName { /* specificity */
 
     .lpCategoryName { /* Header */
         flex: 1 1 auto;
+        min-width: 380px;
     }
 
     .lpAddItemCell { /* Footer */
         flex: 1 1 auto;
+        min-width: 394px;
     }
 }
 
 .lpItemsHeader {
-    align-items: flex-end;
+    align-items: center;
     border-bottom: 1px solid #AAA;
     border-top: none;
     height: 31px;
@@ -175,7 +177,7 @@ input.lpCategoryName { /* specificity */
 
 .lpItemsFooter {
     border-top-style: solid;
-    justify-content: flex-end;
+    justify-content: center;
 }
 
 .lpActionsCell {
