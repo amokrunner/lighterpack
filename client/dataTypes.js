@@ -13,6 +13,7 @@ const Item = function(args) {
     this.authorUnit = "oz";
     if (args.unit) this.authorUnit = args.unit;
     this.price = 0.00;
+    this.calories = 0;
     this.image = "";
     this.imageUrl = "";
     this.url = "";
@@ -66,8 +67,10 @@ Category.prototype.calculateSubtotal = function() {
     this.subtotalWornWeight = 0;
     this.subtotalConsumableWeight = 0;
     this.subtotalPrice = 0;
+    this.subtotalConsumableCalories = 0;
     this.subtotalConsumablePrice = 0;
     this.subtotalQty = 0;
+    this.subtotalConsumableQty = 0;
     
     for (var i in this.categoryItems) {
         var categoryItem = this.categoryItems[i];
@@ -81,6 +84,8 @@ Category.prototype.calculateSubtotal = function() {
         if (this.library.optionalFields.consumable && categoryItem.consumable) {
             this.subtotalConsumableWeight += item.weight * categoryItem.qty;
             this.subtotalConsumablePrice += item.price * categoryItem.qty;
+            this.subtotalConsumableCalories += item.calories * categoryItem.qty;
+            this.subtotalConsumableQty += categoryItem.qty;
         }
         this.subtotalQty += categoryItem.qty;
     }
@@ -240,6 +245,7 @@ List.prototype.calculateTotals = function() {
         totalWornWeight = 0,
         totalConsumableWeight = 0,
         totalConsumablePrice = 0,
+        totalConsumableCalories = 0,
         totalBaseWeight = 0,
         totalPackWeight = 0,
         totalQty = 0,
@@ -255,6 +261,7 @@ List.prototype.calculateTotals = function() {
 
         totalPrice += category.subtotalPrice;
         totalConsumablePrice += category.subtotalConsumablePrice;
+        totalConsumableCalories += category.subtotalConsumableCalories;
 
         totalQty += category.subtotalQty;
 
@@ -273,6 +280,7 @@ List.prototype.calculateTotals = function() {
     
     this.totalPrice = totalPrice;
     this.totalConsumablePrice = totalConsumablePrice;
+    this.totalConsumableCalories = totalConsumableCalories;
 
     this.totalQty = totalQty; 
 }
@@ -306,6 +314,7 @@ const Library = function(args) {
             price: false,
             worn: true,
             consumable: true,
+            calories: false,
             listDescription: false
         };
     this.currencySymbol = "$";

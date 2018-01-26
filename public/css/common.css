@@ -613,7 +613,7 @@ input.lpCategoryName {
 .lpItem .lpDescription,
 .lpItemsHeader .lpDescription,
 .lpItemsFooter .lpDescription {
-  flex: 2 0 200px;
+  flex: 1 1 200px;
   margin-right: 4px;
   min-width: 100px;
 }
@@ -621,7 +621,18 @@ input.lpCategoryName {
 .lpItemsHeader .lpActionsCell,
 .lpItemsFooter .lpActionsCell {
   align-self: center;
-  flex: 0 0 130px;
+  flex: 2 2 130px;
+}
+.lpItem .lpCaloriesCell,
+.lpItemsHeader .lpCaloriesCell,
+.lpItemsFooter .lpCaloriesCell {
+  flex: 0 0 50px;
+  margin-right: 4px;
+}
+.lpItem .lpCaloriesCell .lpCalories,
+.lpItemsHeader .lpCaloriesCell .lpCalories,
+.lpItemsFooter .lpCaloriesCell .lpCalories {
+  width: 50px;
 }
 .lpItem .lpWeightCell,
 .lpItemsHeader .lpWeightCell,
@@ -726,6 +737,7 @@ input.lpCategoryName {
   margin-right: 0;
 }
 .lpHeader .lpWeightCell,
+.lpHeader .lpCaloriesCell,
 .lpHeader .lpQtyCell,
 .lpHeader .lpPriceCell {
   text-align: center;

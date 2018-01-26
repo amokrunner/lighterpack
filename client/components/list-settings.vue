@@ -8,8 +8,8 @@
             <span class="lpTarget"><i class="lpSprite lpSettings"></i> Settings</span>
             <div class="lpContent">
                 <ul id="lpOptionalFields">
-                    <li v-for="optionalField in optionalFieldsLookup" class="lpOptionalField">
-                        <label>
+                    <li v-for="optionalField in optionalFieldsLookup" v-if="optionalFieldsEnable[optionalField.name]" class="lpOptionalField">
+                        <label :class="{lpOptionalFieldIndented: optionalField.indent}">
                             <input type="checkbox" v-model="optionalField.value" v-on:change="toggleOptionalField($event, optionalField.name)"/>
                             {{optionalField.displayName}}
                         </label>
@@ -51,6 +51,11 @@ module.exports = {
                 displayName: "Consumable items",
                 cssClass: "lpShowConsumable"
             }, {
+                name: "calories",
+                displayName: "Consumable Calories",
+                cssClass: "lpShowCalories",
+                indent: true
+            }, {
                 name: "listDescription",
                 displayName: "List descriptions",
                 cssClass: "lpShowListDescription"
@@ -63,6 +68,16 @@ module.exports = {
         },
         isSignedIn: function() {
             return this.$store.state.loggedIn;
+        },
+        optionalFieldsEnable: function() {
+            return {
+                'images': true,
+                "price": true,
+                "worn": true,
+                "consumable": true,
+                "calories": this.$store.state.library.optionalFields['consumable'],
+                "listDescription": true
+            }
         }
     },
     methods: {

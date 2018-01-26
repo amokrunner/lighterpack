@@ -120,14 +120,23 @@ input.lpCategoryName { /* specificity */
     }
 
     .lpDescription {
-        flex: 2 0 200px;
+        flex: 1 1 200px;
         margin-right: 4px;
         min-width: 100px;
     }
 
     .lpActionsCell {
         align-self: center;
-        flex: 0 0 130px;
+        flex: 2 2 130px;
+    }
+    
+    .lpCaloriesCell {
+        flex: 0 0 50px;
+        margin-right: 4px;
+
+        .lpCalories {
+            width: 50px;
+        }
     }
 
     .lpWeightCell {
@@ -204,7 +213,7 @@ input.lpCategoryName { /* specificity */
 }
 
 .lpHeader {
-    .lpWeightCell, .lpQtyCell, .lpPriceCell {
+    .lpWeightCell, .lpCaloriesCell, .lpQtyCell, .lpPriceCell {
         text-align: center;
     }
 }

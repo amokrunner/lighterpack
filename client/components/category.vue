@@ -10,6 +10,7 @@
                     <div class="lpHandle lpCategoryHandle" title="Reorder this category"></div>
                 </span>
                 <input type="text" v-on:input="updateCategoryName" :value="category.name" placeholder="Category Name" class="lpCategoryName lpSilent"/>
+                <span v-if="library.optionalFields['consumable'] && library.optionalFields['calories'] && category.subtotalConsumableQty" class="lpCaloriesCell">kCal</span>
                 <span v-if="library.optionalFields['price']" class="lpPriceCell">Price</span>
                 <span class="lpWeightCell">Weight</span>
                 <span class="lpQtyCell">qty</span>
@@ -19,6 +20,9 @@
             <li class="lpFooter lpItemsFooter">
                 <span class="lpAddItemCell">
                     <a class="lpAdd lpAddItem" v-on:click="newItem"><i class="lpSprite lpSpriteAdd"></i>Add new item</a>
+                </span>
+                <span v-if="library.optionalFields['consumable'] && library.optionalFields['calories'] && category.subtotalConsumableQty" class="lpCaloriesCell lpNumber lpSubtotal">
+                    {{category.subtotalConsumableCalories }}
                 </span>
                 <span v-if="library.optionalFields['price']" class="lpPriceCell lpNumber lpSubtotal">
                     {{category.subtotalPrice | displayPrice(library.currencySymbol)}}

@@ -54,6 +54,7 @@
                     <span class="lpCell"></span>
                     <span class="lpCell lpSubtotal">
                         Consumable
+                        <span v-if="library.optionalFields['calories'] && list.totalConsumableCalories">&nbsp;({{ list.totalConsumableCalories }} kCal)</span>
                     </span>
                     <span class="lpCell lpNumber lpSubtotal" v-if="library.optionalFields['price']">
                         {{list.totalConsumablePrice | displayPrice(library.currencySymbol)}}

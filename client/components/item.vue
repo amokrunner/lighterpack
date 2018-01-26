@@ -19,6 +19,9 @@
             <i v-if="library.optionalFields['consumable']" v-on:click="toggleConsumable" class="lpSprite lpConsumable" :class="{lpActive: categoryItem.consumable}" title="Mark this item as a consumable"></i>
             <i :class="'lpSprite lpStar lpStar' + categoryItem.star" v-on:click="cycleStar" title="Star this item"></i>
         </span>
+        <span v-if="library.optionalFields['consumable'] && library.optionalFields['calories'] && category.subtotalConsumableQty" class="lpCaloriesCell lpNumber">
+            <input v-if="library.optionalFields['calories'] && categoryItem.consumable" v-on:input="saveCalories" v-on:keydown.up="incrementCalories($event)" v-on:keydown.down="decrementCalories($event)" type="text" v-model="displayCalories" :class="{lpCalories: true, lpNumber: true, lpSilent: true, lpSilentError: caloriesError}" v-empty-if-zero/>
+        </span>
         <span v-if="library.optionalFields['price']" class="lpPriceCell">
             <input v-on:input="savePrice" type="text" v-model="displayPrice" v-on:keydown.up="incrementPrice($event)" v-on:keydown.down="decrementPrice($event)" :class="{lpPrice: true, lpNumber: true, lpSilent: true, lpSilentError: priceError}" v-on:blur="setDisplayPrice" v-empty-if-zero />
         </span>
@@ -55,9 +58,11 @@ module.exports = {
         return {
             displayWeight: 0,
             displayPrice: 0,
+            displayCalories: 0,
             displayQty: 0,
             weightError: false,
             priceError: false,
+            caloriesError: false,
             qtyError: false,
             numStars: 4
         };
@@ -135,6 +140,17 @@ module.exports = {
                 this.weightError = true;
             }
         },
+        saveCalories: function() {
+            const caloriesFloat = parseFloat(this.displayCalories, 10);
+
+            if (!isNaN(caloriesFloat)) {
+                this.item.calories = caloriesFloat;
+                this.saveItem();
+                this.caloriesError = false;
+            } else {
+                this.caloriesError = true;
+            }
+        },
         setDisplayPrice: function() {
             if (!this.priceError) {
                 this.displayPrice = this.item.price.toFixed(2);
@@ -147,6 +163,9 @@ module.exports = {
         },
         setDisplayWeight: function() {
             this.displayWeight = weightUtils.MgToWeight(this.item.weight, this.item.authorUnit);
+        },
+        setDisplayCalories: function() {
+            this.displayCalories = this.item.calories;
         },
         updateItemLink: function() {
             bus.$emit("updateItemLink", this.item);
@@ -259,6 +278,43 @@ module.exports = {
 
             this.saveItem();
         },
+        incrementCalories: function(evt) {
+            evt.stopImmediatePropagation();
+
+            if (this.caloriesError) {
+                return;
+            }
+
+            let newCalories = this.item.calories;
+            if (newCalories % 10) {
+                newCalories = 10*Math.ceil(newCalories/10);
+            } else {
+                newCalories += 10;
+            }
+            this.item.calories = newCalories;
+
+            this.saveItem();
+        },
+        decrementCalories: function(evt) {
+            evt.stopImmediatePropagation();
+
+            if (this.caloriesError) {
+                return;
+            }
+
+            let newCalories = this.item.calories;
+            if (newCalories % 10) {
+                newCalories = 10*Math.floor(newCalories/10);
+            } else {
+                newCalories -= 10;
+            }
+            if (newCalories < 0) {
+                newCalories = 0;
+            }
+            this.item.calories = newCalories;
+
+            this.saveItem();
+        },
         removeItem: function() {
             this.$store.commit("removeItemFromCategory", {itemId: this.item.id, category: this.category});
         },
@@ -266,6 +322,7 @@ module.exports = {
     watch: {
         item: function() {
             this.setDisplayWeight();
+            this.setDisplayCalories();
         },
         categoryItem: function() {
             this.setDisplayQty();
@@ -274,6 +331,7 @@ module.exports = {
     beforeMount: function() {
         this.setDisplayWeight();
         this.setDisplayPrice();
+        this.setDisplayCalories();
         this.setDisplayQty();
     }
 }
