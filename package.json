@@ -44,7 +44,9 @@
     "vue-template-compiler": "^2.1.0",
     "vuex": "^2.2.1",
     "webpack": "^2.2.0",
-    "whatwg-fetch": "^2.0.3",
+    "whatwg-fetch": "^2.0.3"
+  },
+  "devDependencies": {
     "webpack-dev-middleware": "^1.9.0",
     "webpack-hot-middleware": "^2.15.0",
     "webpack-dev-server": "^2.2.0"
